@@ -47,6 +47,12 @@ export default [
           printWidth: 120,
           jsxSingleQuote: true
         }
+      ],
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: ['@mui/*/*/*']
+        }
       ]
     }
   }
