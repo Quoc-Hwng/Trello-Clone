@@ -1,28 +1,17 @@
-import { cyan, deepOrange, orange, teal } from '@mui/material/colors'
-import { experimental_extendTheme as extendTheme } from '@mui/material/styles'
+import { extendTheme } from '@mui/material/styles'
+
+const APP_BAR_HEIGH = '58px'
+const BOARD_BAR_HEIGHT = '60px'
+const BOARD_CONTENT_HEIGHT = `calc(100% - ${APP_BAR_HEIGH} - ${BOARD_BAR_HEIGHT})`
 
 const theme = extendTheme({
   colorSchemeSelector: 'class',
   trello: {
-    appBarHeight: '58px',
-    boardBarHeight: '60px'
+    appBarHeight: APP_BAR_HEIGH,
+    boardBarHeight: BOARD_BAR_HEIGHT,
+    boardContentHeight: BOARD_CONTENT_HEIGHT
   },
-  colorSchemes: {
-    light: {
-      palette: {
-        primary: teal,
-        secondary: deepOrange
-      },
-      spacing: (factor) => `${0.25 * factor}rem`
-    },
-    dark: {
-      palette: {
-        primary: cyan,
-        secondary: orange
-      },
-      spacing: (factor) => `${0.25 * factor}rem`
-    }
-  },
+  // colorSchemes: {},
   components: {
     MuiCssBaseLine: {
       styleOverrides: {
@@ -32,11 +21,11 @@ const theme = extendTheme({
             height: '8px'
           },
           '*::-webkit-scrollbar-thumb': {
-            backgroundColor: '#bdc3c7',
+            backgroundColor: '#dcdde1',
             borderRadius: '8px'
           },
           '*::-webkit-scrollbar-thumb:hover': {
-            backgroundColor: '#00b894',
+            backgroundColor: 'white',
             borderRadius: '8px'
           }
         }
@@ -45,35 +34,36 @@ const theme = extendTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          textTransform: 'none'
+          textTransform: 'none',
+          borderWidth: '0.5px'
         }
       }
     },
     MuiInputLabel: {
       styleOverrides: {
-        root: ({ theme }) => ({
-          color: theme.palette.primary.main,
+        root: {
+          // color: theme.palette.primary.main,
           fontSize: '0.875rem'
-        })
+        }
       }
     },
     MuiOutlinedInput: {
       styleOverrides: {
-        root: ({ theme }) => ({
-          color: theme.palette.primary.main,
-          fontSize: '0.875rem',
-          '.MuiOutlinedInput-notchedOutline': {
-            borderColor: theme.palette.primary.light
-          },
-          '&:hover': {
-            '.MuiOutlinedInput-notchedOutline': {
-              borderColor: theme.palette.primary.main
-            }
-          },
+        root: {
+          // color: theme.palette.primary.main,
+          // fontSize: '0.875rem',
+          // '.MuiOutlinedInput-notchedOutline': {
+          //   borderColor: theme.palette.primary.light
+          // },
+          // '&:hover': {
+          //   '.MuiOutlinedInput-notchedOutline': {
+          //     borderColor: theme.palette.primary.main
+          //   }
+          // },
           '& fieldset': {
             borderWidth: '1px !important'
           }
-        })
+        }
       }
     }
   }
