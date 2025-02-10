@@ -1,7 +1,5 @@
-import { Box } from '@mui/material'
-
-const COLUMN_HEADER_HEIGHT = '50px'
-const COLUMN_FOOTER_HEIGHT = '56px'
+import Box from '@mui/material/Box'
+import ListColumns from './ListColumns/ListColumns'
 
 export default function BoardContent() {
   return (
@@ -10,23 +8,11 @@ export default function BoardContent() {
         backgroundColor: 'primary.light',
         width: '100%',
         height: (theme) => theme.trello.boardContentHeight,
-        display: 'flex',
-        bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#34495e' : '#1976d2')
+        bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#34495e' : '#1976d2'),
+        p: '10px 0'
       }}
     >
-      <Box
-        sx={{
-          minWidth: '300px',
-          maxWidth: '300px',
-          bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#333643' : '#ebecf0'),
-          ml: 2,
-          borderRadius: '6px'
-        }}
-      >
-        <Box></Box>
-        <Box></Box>
-        <Box></Box>
-      </Box>
+      <ListColumns />
     </Box>
   )
 }
