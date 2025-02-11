@@ -2,8 +2,9 @@ import Box from '@mui/material/Box'
 import Column from './Column/Column'
 import { Button } from '@mui/material'
 import { NoteAdd } from '@mui/icons-material'
+import PropTypes from 'prop-types'
 
-export default function ListColumns() {
+export default function ListColumns({ columns }) {
   return (
     <Box
       sx={{
@@ -16,7 +17,9 @@ export default function ListColumns() {
         '&::-webkit-scrollbar-track': { m: 2 }
       }}
     >
-      <Column />
+      {columns?.map((column) => (
+        <Column key={column._id} column={column} />
+      ))}
 
       {/* Add new column */}
       <Box
@@ -38,4 +41,8 @@ export default function ListColumns() {
       </Box>
     </Box>
   )
+}
+
+ListColumns.propTypes = {
+  columns: PropTypes.arrayOf(PropTypes.object).isRequired
 }

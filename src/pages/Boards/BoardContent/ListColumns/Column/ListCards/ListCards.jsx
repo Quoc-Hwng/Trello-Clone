@@ -1,7 +1,12 @@
 import Box from '@mui/material/Box'
 import Card from './Card/Card'
+import PropTypes from 'prop-types'
 
-export default function ListCards() {
+export default function ListCards({ cards }) {
+  ListCards.propTypes = {
+    cards: PropTypes.array.isRequired
+  }
+
   return (
     <Box
       sx={{
@@ -22,7 +27,9 @@ export default function ListCards() {
         }
       }}
     >
-      <Card />
+      {cards?.map((card) => (
+        <Card key={card._id} card={card} />
+      ))}
     </Box>
   )
 }

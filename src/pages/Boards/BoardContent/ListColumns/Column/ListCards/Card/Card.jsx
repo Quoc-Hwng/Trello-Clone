@@ -7,29 +7,49 @@ import Group from '@mui/icons-material/Group'
 import Attachment from '@mui/icons-material/Attachment'
 import Comment from '@mui/icons-material/Comment'
 import { Card as MuiCard } from '@mui/material'
+import PropTypes from 'prop-types'
 
-export default function Card() {
+export default function Card({ card }) {
+  const shouldShowCardAction = () => {
+    return !!card?.memberIds?.length || !!card?.comments?.length || !!card?.attachments?.length
+  }
+
   return (
     <MuiCard sx={{ cursor: 'pointer', boxShadow: '0 1px 1px rgba(0,0,0,0.2)', overflow: 'unset' }}>
-      <CardMedia
-        sx={{ height: 140 }}
-        image='https://d1hjkbq40fs2x4.cloudfront.net/2017-08-21/files/landscape-photography_1645.jpg'
-        title='green iguana'
-      />
+      {card?.cover && <CardMedia sx={{ height: 140 }} image={card?.image} />}
       <CardContent sx={{ p: 1.5, '&:last-child': { p: 1.5 } }}>
-        <Typography>San San Whale</Typography>
+        <Typography>{card?.title}</Typography>
       </CardContent>
-      <CardActions sx={{ p: '0 4px 8px 4px' }}>
-        <Button size='small' startIcon={<Group />}>
-          20
-        </Button>
-        <Button size='small' startIcon={<Comment />}>
-          15
-        </Button>
-        <Button size='small' startIcon={<Attachment />}>
-          10
-        </Button>
-      </CardActions>
+      {shouldShowCardAction() && (
+        <CardActions sx={{ p: '0 4px 8px 4px' }}>
+          {!!card?.memberIds?.length && (
+            <Button size='small' startIcon={<Group />}>
+              {card.memberIds.length}
+            </Button>
+          )}
+          {!!card?.comments?.length && (
+            <Button size='small' startIcon={<Comment />}>
+              {card?.comments?.length}
+            </Button>
+          )}
+          {!!card?.attachments?.length && (
+            <Button size='small' startIcon={<Attachment />}>
+              {card?.attachments?.length}
+            </Button>
+          )}
+        </CardActions>
+      )}
     </MuiCard>
   )
+}
+
+Card.propTypes = {
+  card: PropTypes.shape({
+    cover: PropTypes.bool,
+    image: PropTypes.string,
+    title: PropTypes.string,
+    memberIds: PropTypes.array,
+    comments: PropTypes.array,
+    attachments: PropTypes.array
+  }).isRequired
 }

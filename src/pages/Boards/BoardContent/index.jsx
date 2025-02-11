@@ -1,7 +1,10 @@
 import Box from '@mui/material/Box'
 import ListColumns from './ListColumns/ListColumns'
+import PropTypes from 'prop-types'
+import { mapOrder } from '~/utils/sort'
 
-export default function BoardContent() {
+export default function BoardContent({ board }) {
+  const orderedColumns = mapOrder(board?.columns, board?.columnOrderIds, '_id')
   return (
     <Box
       sx={{
@@ -12,7 +15,15 @@ export default function BoardContent() {
         p: '10px 0'
       }}
     >
-      <ListColumns />
+      <ListColumns columns={orderedColumns} />
     </Box>
   )
+}
+
+BoardContent.propTypes = {
+  board: PropTypes.shape({
+    title: PropTypes.string,
+    columns: PropTypes.array,
+    columnOrderIds: PropTypes.array
+  }).isRequired
 }

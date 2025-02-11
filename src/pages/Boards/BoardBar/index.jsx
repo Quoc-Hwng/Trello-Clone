@@ -10,6 +10,8 @@ import AvatarGroup from '@mui/material/AvatarGroup'
 import Tooltip from '@mui/material/Tooltip'
 import Button from '@mui/material/Button'
 import PersonAdd from '@mui/icons-material/PersonAdd'
+import { capitalizeFirstLetter } from '~/utils/formatter'
+import PropTypes from 'prop-types'
 
 const MENU_STYLES = {
   color: 'white',
@@ -25,7 +27,7 @@ const MENU_STYLES = {
   }
 }
 
-export default function BoardBar() {
+export default function BoardBar({ board }) {
   return (
     <Box
       sx={{
@@ -40,8 +42,8 @@ export default function BoardBar() {
       }}
     >
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-        <Chip icon={<Dashboard />} label='Phạm Quốc Hưng Board' clickable sx={MENU_STYLES} />
-        <Chip icon={<VpnLock />} label='Public/Private Workspace' clickable sx={MENU_STYLES} />
+        <Chip icon={<Dashboard />} label={board?.title} clickable sx={MENU_STYLES} />
+        <Chip icon={<VpnLock />} label={capitalizeFirstLetter(board?.type)} clickable sx={MENU_STYLES} />
         <Chip icon={<AddToDrive />} label='Add To Google Drive' clickable sx={MENU_STYLES} />
         <Chip icon={<Bolt />} label='Automation' clickable sx={MENU_STYLES} />
         <Chip icon={<FilterList />} label='Filter' clickable sx={MENU_STYLES} />
@@ -82,4 +84,11 @@ export default function BoardBar() {
       </Box>
     </Box>
   )
+}
+
+BoardBar.propTypes = {
+  board: PropTypes.shape({
+    title: PropTypes.string,
+    type: PropTypes.string
+  }).isRequired
 }
