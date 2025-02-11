@@ -8,14 +8,33 @@ import Attachment from '@mui/icons-material/Attachment'
 import Comment from '@mui/icons-material/Comment'
 import { Card as MuiCard } from '@mui/material'
 import PropTypes from 'prop-types'
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 
 export default function Card({ card }) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: card._id,
+    data: { ...card }
+  })
+
+  const dndKitCardStyles = {
+    transform: CSS.Translate.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : undefined
+  }
+
   const shouldShowCardAction = () => {
     return !!card?.memberIds?.length || !!card?.comments?.length || !!card?.attachments?.length
   }
 
   return (
-    <MuiCard sx={{ cursor: 'pointer', boxShadow: '0 1px 1px rgba(0,0,0,0.2)', overflow: 'unset' }}>
+    <MuiCard
+      ref={setNodeRef}
+      style={dndKitCardStyles}
+      {...attributes}
+      {...listeners}
+      sx={{ cursor: 'pointer', boxShadow: '0 1px 1px rgba(0,0,0,0.2)', overflow: 'unset' }}
+    >
       {card?.cover && <CardMedia sx={{ height: 140 }} image={card?.image} />}
       <CardContent sx={{ p: 1.5, '&:last-child': { p: 1.5 } }}>
         <Typography>{card?.title}</Typography>
@@ -45,6 +64,7 @@ export default function Card({ card }) {
 
 Card.propTypes = {
   card: PropTypes.shape({
+    _id: PropTypes.string,
     cover: PropTypes.bool,
     image: PropTypes.string,
     title: PropTypes.string,
