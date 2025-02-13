@@ -3,14 +3,16 @@ import ListColumns from './ListColumns/ListColumns'
 import PropTypes from 'prop-types'
 
 import { mapOrder } from '~/utils/sort'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import {
   closestCorners,
   defaultDropAnimationSideEffects,
   DndContext,
   DragOverlay,
+  getFirstCollision,
   MouseSensor,
+  pointerWithin,
   TouchSensor,
   useSensor,
   useSensors
@@ -42,13 +44,15 @@ export default function BoardContent({ board }) {
   const [activeDragItemData, setActiveDragItemData] = useState(null)
   const [oldColumnWhenDraggingCard, setOldColumnWhenDraggingCard] = useState(null)
 
+  const lastOverId = useRef(null)
+
   useEffect(() => {
     setOrderedColumns(mapOrder(board?.columns, board?.columnOrderIds, '_id'))
   }, [board])
 
   const findColumnByCardId = (cardId) => {
-    //return orderedColumns.find((column) => column?.cards?.map((card) => card._id)?.includes(cardId));
-    return orderedColumns.find((column) => column?.cards?.filter((card) => card._id === cardId).length > 0)
+    return orderedColumns.find((column) => column?.cards?.map((card) => card._id)?.includes(cardId))
+    // return orderedColumns.find((column) => column?.cards?.filter((card) => card._id === cardId).length > 0)
   }
 
   const moveCardBetweenDifferentColumns = (
@@ -83,7 +87,6 @@ export default function BoardContent({ board }) {
       if (nextOverColumn) {
         nextOverColumn.cards = nextOverColumn.cards.filter((card) => card._id !== activeDraggingCardId)
 
-        console.log('active', activeDraggingCardData)
         nextOverColumn.cards = nextOverColumn.cards.toSpliced(newCardIdex, 0, {
           ...activeDraggingCardData,
           columnId: nextOverColumn._id
@@ -222,6 +225,40 @@ export default function BoardContent({ board }) {
     })
   }
 
+  const collisionDetectionStrategy = useCallback(
+    (args) => {
+      if (activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN) {
+        return closestCorners({ ...args })
+      }
+
+      //Tìm các điểm giao nhau/ va chạm
+      const pointerIntersections = pointerWithin(args)
+
+      if (!pointerIntersections?.length) return
+
+      // const intersections = pointerIntersections?.length > 0 ? pointerIntersections : rectIntersection(args)
+
+      let overId = getFirstCollision(pointerIntersections, 'id')
+
+      if (overId) {
+        const checkColumns = orderedColumns.find((column) => column._id === overId)
+        if (checkColumns) {
+          overId = closestCorners({
+            ...args,
+            droppableContainers: args.droppableContainers.filter(
+              (container) => container.id !== overId && checkColumns?.cardOrderIds?.includes(container.id)
+            )
+          })[0]?.id
+        }
+        lastOverId.current = overId
+        return [{ id: overId }]
+      }
+
+      return lastOverId.current ? [{ id: lastOverId.current }] : []
+    },
+    [activeDragItemType, orderedColumns]
+  )
+
   return (
     <DndContext
       onDragEnd={handleDragEnd}
@@ -229,7 +266,7 @@ export default function BoardContent({ board }) {
       onDragStart={handleDragStart}
       onDragOver={handleDragOver}
       //Phát hiện va chạm
-      collisionDetection={closestCorners}
+      collisionDetection={collisionDetectionStrategy}
     >
       <Box
         sx={{
