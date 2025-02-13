@@ -184,6 +184,20 @@ export const mockData = {
             attachments: []
           }
         ]
+      },
+      {
+        _id: 'column-id-04',
+        boardId: 'board-id-01',
+        title: 'Done Column 03',
+        cardOrderIds: ['card-id-14-placeholder-card'],
+        cards: [
+          {
+            _id: 'card-id-14-placeholder-card',
+            boardId: 'board-id-01',
+            columnId: 'column-id-04',
+            FE_PlaceholderCard: true
+          }
+        ]
       }
     ]
   }
