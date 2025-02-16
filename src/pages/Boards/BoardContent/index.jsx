@@ -11,12 +11,11 @@ import {
   DndContext,
   DragOverlay,
   getFirstCollision,
-  MouseSensor,
   pointerWithin,
-  TouchSensor,
   useSensor,
   useSensors
 } from '@dnd-kit/core'
+import { MouseSensor, TouchSensor } from '~/customLibrary/DnDKitSensors'
 import { arrayMove } from '@dnd-kit/sortable'
 import Column from './ListColumns/Column/Column'
 import Card from './ListColumns/Column/ListCards/Card/Card'

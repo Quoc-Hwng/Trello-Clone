@@ -117,6 +117,7 @@ export default function Column({ column }) {
             </Tooltip>
             <Menu
               id='basic-menu-column'
+              data-no-dnd='true'
               anchorEl={anchorEl}
               open={open}
               onClose={handleClose}
@@ -205,6 +206,7 @@ export default function Column({ column }) {
                 size='small'
                 autoFocus
                 variant='outlined'
+                data-no-dnd='true'
                 onChange={(e) => setNewCardTitle(e.target.value)}
                 sx={{
                   '& label': { color: 'text.primary' },
