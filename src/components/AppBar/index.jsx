@@ -18,7 +18,7 @@ import LibraryAdd from '@mui/icons-material/LibraryAdd'
 import Templates from './Menus/Templates'
 import InputAdornment from '@mui/material/InputAdornment'
 import Search from '@mui/icons-material/Search'
-import { Close } from '@mui/icons-material'
+import Close from '@mui/icons-material/Close'
 import { useState } from 'react'
 
 export default function AppBar() {
@@ -71,11 +71,13 @@ export default function AppBar() {
                   </InputAdornment>
                 ),
                 endAdornment: (
-                  <Close
-                    fontSize='small'
-                    sx={{ color: searchValue ? 'white' : 'transparent', cursor: 'pointer' }}
-                    onClick={() => setSearchValue('')}
-                  />
+                  <InputAdornment position='end'>
+                    <Close
+                      fontSize='small'
+                      sx={{ color: searchValue ? 'white' : 'transparent', cursor: 'pointer' }}
+                      onClick={() => setSearchValue('')}
+                    />
+                  </InputAdornment>
                 )
               }
             }}
