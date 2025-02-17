@@ -24,12 +24,13 @@ import PropTypes from 'prop-types'
 import { mapOrder } from '~/utils/sort'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { toast } from 'react-toastify'
 
 Column.propTypes = {
   column: PropTypes.object.isRequired
 }
 
-export default function Column({ column }) {
+export default function Column({ column, createNewCard }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: column._id,
     data: { ...column }
@@ -61,10 +62,18 @@ export default function Column({ column }) {
 
   const [newCardTitle, setNewCardTitle] = useState('')
 
-  const addNewCard = () => {
+  const addNewCard = async () => {
     if (!newCardTitle) {
+      toast.error('Please enter Card Title')
       return
     }
+
+    const newCardData = {
+      title: newCardTitle,
+      columnId: column._id
+    }
+
+    await createNewCard(newCardData)
 
     toggleOpenNewCardForm()
     setNewCardTitle('')
