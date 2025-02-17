@@ -26,7 +26,7 @@ const ACTIVE_DRAG_ITEM_TYPE = {
   COLUMN: 'ACTIVE_DRAG_ITEM_TYPE_COLUMN',
   CARD: 'ACTIVE_DRAG_ITEM_TYPE_CARD'
 }
-export default function BoardContent({ board, createNewColumn, createNewCard }) {
+export default function BoardContent({ board, createNewColumn, createNewCard, moveColumns }) {
   // const pointerSensor = useSensor(PointerSensor, { activationConstraint: { distance: 10 } })
   // Require the mouse to move by 10 pixels before activating
   const mouseSensor = useSensor(MouseSensor, { activationConstraint: { distance: 10 } })
@@ -210,7 +210,7 @@ export default function BoardContent({ board, createNewColumn, createNewCard }) 
       const dndOrderedColumns = arrayMove(orderedColumns, oldColumnIndex, newColumnIndex)
 
       //Call API
-      // const dndOrderedColumnsIds = dndOrderedColumns.map((c) => c._id)
+      moveColumns(dndOrderedColumns)
 
       setOrderedColumns(dndOrderedColumns)
     }
