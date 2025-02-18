@@ -11,3 +11,8 @@ export const generatePlaceholderCard = (column) => {
     FE_PlaceholderCard: true
   }
 }
+
+export const removePlaceholderCard = (columnId, dndOrderedCardIds) => {
+  const placeholderCardId = `${columnId}-placeholder-card`
+  return dndOrderedCardIds.filter((cardId) => cardId !== placeholderCardId)
+}

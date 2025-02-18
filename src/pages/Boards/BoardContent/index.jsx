@@ -26,7 +26,7 @@ const ACTIVE_DRAG_ITEM_TYPE = {
   COLUMN: 'ACTIVE_DRAG_ITEM_TYPE_COLUMN',
   CARD: 'ACTIVE_DRAG_ITEM_TYPE_CARD'
 }
-export default function BoardContent({ board, createNewColumn, createNewCard, moveColumns }) {
+export default function BoardContent({ board, createNewColumn, createNewCard, moveColumns, moveCardInTheSameColumn }) {
   // const pointerSensor = useSensor(PointerSensor, { activationConstraint: { distance: 10 } })
   // Require the mouse to move by 10 pixels before activating
   const mouseSensor = useSensor(MouseSensor, { activationConstraint: { distance: 10 } })
@@ -47,7 +47,7 @@ export default function BoardContent({ board, createNewColumn, createNewCard, mo
   const lastOverId = useRef(null)
 
   useEffect(() => {
-    setOrderedColumns(mapOrder(board?.columns, board?.columnOrderIds, '_id'))
+    setOrderedColumns(board?.columns)
   }, [board])
 
   const findColumnByCardId = (cardId) => {
@@ -187,16 +187,19 @@ export default function BoardContent({ board, createNewColumn, createNewCard, mo
 
         const dndOrderedCards = arrayMove(oldColumnWhenDraggingCard?.cards, oldCardIndex, newCardIndex)
 
+        const dndOrderedCardIds = dndOrderedCards.map((card) => card._id)
+
         setOrderedColumns((prevColumns) => {
           const nextColumns = cloneDeep(prevColumns)
 
           const targetColumn = nextColumns.find((c) => c._id === overColumn._id)
 
           targetColumn.cards = dndOrderedCards
-          targetColumn.cardOrderIds = dndOrderedCards.map((card) => card._id)
-
+          targetColumn.cardOrderIds = dndOrderedCardIds
           return nextColumns
         })
+
+        moveCardInTheSameColumn(dndOrderedCards, dndOrderedCardIds, oldColumnWhenDraggingCard._id)
       }
     }
 
@@ -209,10 +212,9 @@ export default function BoardContent({ board, createNewColumn, createNewCard, mo
 
       const dndOrderedColumns = arrayMove(orderedColumns, oldColumnIndex, newColumnIndex)
 
+      setOrderedColumns(dndOrderedColumns)
       //Call API
       moveColumns(dndOrderedColumns)
-
-      setOrderedColumns(dndOrderedColumns)
     }
 
     setActiveDragItemId(null)
