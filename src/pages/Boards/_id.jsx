@@ -11,11 +11,12 @@ import {
   createNewCardAPI,
   createNewColumnAPI,
   fetchBoardDetailsAPI,
+  moveCardToDifferentColumnAPI,
   updateBoardDetailsAPI,
   updateColumnDetailsAPI
 } from '~/apis'
 import { isEmpty } from 'lodash'
-import { generatePlaceholderCard, removePlaceholderCard } from '~/utils/formatter'
+import { generatePlaceholderCard } from '~/utils/formatter'
 import { mapOrder } from '~/utils/sort'
 
 export default function Boards() {
@@ -37,7 +38,7 @@ export default function Boards() {
     })
   }, [])
 
-  console.log(board)
+  console.log('board', board)
 
   const createNewColumn = async (newColumnData) => {
     const createdColumn = await createNewColumnAPI({
@@ -62,9 +63,15 @@ export default function Boards() {
 
     const newBoard = { ...board }
     const columnToUpdate = newBoard.columns.find((column) => column._id === createdCard.columnId)
+    console.log('columnToupDate', createdCard)
     if (columnToUpdate) {
-      columnToUpdate.cards.push(createdCard)
-      columnToUpdate.cardOrderIds.push(createdCard)
+      if (columnToUpdate.cards.some((card) => card.FE_PlaceholderCard)) {
+        columnToUpdate.cards = [createdCard]
+        columnToUpdate.cardOrderIds = [createdCard._id]
+      } else {
+        columnToUpdate.cards.push(createdCard)
+        columnToUpdate.cardOrderIds.push(createdCard._id)
+      }
     }
     setBoard(newBoard)
   }
@@ -87,8 +94,26 @@ export default function Boards() {
       columnToUpdate.cardOrderIds = dndOrderedCardIds
     }
     setBoard(newBoard)
-    const orderedCardRemovePlaceholder = removePlaceholderCard(columnId, dndOrderedCardIds)
-    updateColumnDetailsAPI(columnId, { cardOrderIds: orderedCardRemovePlaceholder })
+    updateColumnDetailsAPI(columnId, { cardOrderIds: dndOrderedCardIds })
+  }
+
+  const moveCardToDifferentColumns = (currentCardId, prevColumnId, nextColumnId, dndOrderedColumns) => {
+    const dndOrderedColumnsIds = dndOrderedColumns.map((c) => c._id)
+    const newBoard = { ...board }
+    newBoard.columns = dndOrderedColumns
+    newBoard.columnOrderIds = dndOrderedColumnsIds
+    setBoard(newBoard)
+
+    let prevCardOrderIds = dndOrderedColumns.find((c) => c._id === prevColumnId)?.cardOrderIds
+    if (prevCardOrderIds[0].includes('placeholder-card')) prevCardOrderIds = []
+
+    moveCardToDifferentColumnAPI({
+      currentCardId,
+      prevColumnId,
+      prevCardOrderIds,
+      nextColumnId,
+      nextCardOrderIds: dndOrderedColumns.find((c) => c._id === nextColumnId)?.cardOrderIds
+    })
   }
 
   if (!board) {
@@ -118,6 +143,7 @@ export default function Boards() {
         createNewCard={createNewCard}
         moveColumns={moveColumns}
         moveCardInTheSameColumn={moveCardInTheSameColumn}
+        moveCardToDifferentColumns={moveCardToDifferentColumns}
       />
     </Container>
   )

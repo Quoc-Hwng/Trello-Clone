@@ -12,7 +12,3 @@ export const generatePlaceholderCard = (column) => {
   }
 }
 
-export const removePlaceholderCard = (columnId, dndOrderedCardIds) => {
-  const placeholderCardId = `${columnId}-placeholder-card`
-  return dndOrderedCardIds.filter((cardId) => cardId !== placeholderCardId)
-}

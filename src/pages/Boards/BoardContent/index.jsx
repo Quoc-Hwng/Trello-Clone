@@ -26,7 +26,14 @@ const ACTIVE_DRAG_ITEM_TYPE = {
   COLUMN: 'ACTIVE_DRAG_ITEM_TYPE_COLUMN',
   CARD: 'ACTIVE_DRAG_ITEM_TYPE_CARD'
 }
-export default function BoardContent({ board, createNewColumn, createNewCard, moveColumns, moveCardInTheSameColumn }) {
+export default function BoardContent({
+  board,
+  createNewColumn,
+  createNewCard,
+  moveColumns,
+  moveCardInTheSameColumn,
+  moveCardToDifferentColumns
+}) {
   // const pointerSensor = useSensor(PointerSensor, { activationConstraint: { distance: 10 } })
   // Require the mouse to move by 10 pixels before activating
   const mouseSensor = useSensor(MouseSensor, { activationConstraint: { distance: 10 } })
@@ -62,7 +69,8 @@ export default function BoardContent({ board, createNewColumn, createNewCard, mo
     over,
     activeColumn,
     activeDraggingCardId,
-    activeDraggingCardData
+    activeDraggingCardData,
+    triggerForm
   ) => {
     setOrderedColumns((prevColumns) => {
       //Tìm vị trí activeCard sắp được drop
@@ -99,6 +107,10 @@ export default function BoardContent({ board, createNewColumn, createNewCard, mo
         nextOverColumn.cards = nextOverColumn.cards.filter((card) => !card.FE_PlaceholderCard)
 
         nextOverColumn.cardOrderIds = nextOverColumn.cards.map((card) => card._id)
+      }
+
+      if (triggerForm === 'handleDragEnd') {
+        moveCardToDifferentColumns(activeDraggingCardId, oldColumnWhenDraggingCard._id, nextOverColumn._id, nextColumns)
       }
 
       return nextColumns
@@ -146,7 +158,8 @@ export default function BoardContent({ board, createNewColumn, createNewCard, mo
         over,
         activeColumn,
         activeDraggingCardId,
-        activeDraggingCardData
+        activeDraggingCardData,
+        'handleDragOver'
       )
     }
   }
@@ -178,7 +191,8 @@ export default function BoardContent({ board, createNewColumn, createNewCard, mo
           over,
           activeColumn,
           activeDraggingCardId,
-          activeDraggingCardData
+          activeDraggingCardData,
+          'handleDragEnd'
         )
       } else {
         // Lấy vị trí cũ (từ oldColumnWhenDraggingCard)
