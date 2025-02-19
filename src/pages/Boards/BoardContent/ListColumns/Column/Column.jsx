@@ -80,18 +80,17 @@ export default function Column({ column, createNewCard, deleteColumnDetails }) {
   }
 
   const confirmDeleteColum = useConfirm()
-  const handleDeleteColumn = () => {
-    confirmDeleteColum({
+  const handleDeleteColumn = async () => {
+    const { confirmed } = await confirmDeleteColum({
       title: 'Delete Column?',
       description: 'This action will permanently delete your Column and its Cards! Are you sure?',
       confirmationText: 'Confirm',
       cancellationText: 'Cancel',
       buttonOrder: ['confirm', 'cancel']
     })
-      .then(() => {
-        deleteColumnDetails(column._id)
-      })
-      .catch()
+    if (confirmed) {
+      deleteColumnDetails(column._id)
+    }
   }
 
   return (
