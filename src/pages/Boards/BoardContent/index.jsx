@@ -2,7 +2,6 @@ import Box from '@mui/material/Box'
 import ListColumns from './ListColumns/ListColumns'
 import PropTypes from 'prop-types'
 
-import { mapOrder } from '~/utils/sort'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import {
@@ -32,7 +31,8 @@ export default function BoardContent({
   createNewCard,
   moveColumns,
   moveCardInTheSameColumn,
-  moveCardToDifferentColumns
+  moveCardToDifferentColumns,
+  deleteColumnDetails
 }) {
   // const pointerSensor = useSensor(PointerSensor, { activationConstraint: { distance: 10 } })
   // Require the mouse to move by 10 pixels before activating
@@ -299,7 +299,12 @@ export default function BoardContent({
           p: '10px 0'
         }}
       >
-        <ListColumns columns={orderedColumns} createNewColumn={createNewColumn} createNewCard={createNewCard} />
+        <ListColumns
+          columns={orderedColumns}
+          createNewColumn={createNewColumn}
+          createNewCard={createNewCard}
+          deleteColumnDetails={deleteColumnDetails}
+        />
         <DragOverlay dropAnimation={dropAnimation}>
           {!activeDragItemType && null}
           {activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN && <Column column={activeDragItemData} />}

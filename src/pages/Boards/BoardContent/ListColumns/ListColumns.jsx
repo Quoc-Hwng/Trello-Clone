@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 
-export default function ListColumns({ columns, createNewColumn, createNewCard }) {
+export default function ListColumns({ columns, createNewColumn, createNewCard, deleteColumnDetails }) {
   const [openNewColumnForm, setOpenNewColumnForm] = useState(false)
   const toggleOpenNewColumnForm = () => setOpenNewColumnForm(!openNewColumnForm)
 
@@ -46,7 +46,12 @@ export default function ListColumns({ columns, createNewColumn, createNewCard })
         }}
       >
         {columns?.map((column) => (
-          <Column key={column._id} column={column} createNewCard={createNewCard} />
+          <Column
+            key={column._id}
+            column={column}
+            createNewCard={createNewCard}
+            deleteColumnDetails={deleteColumnDetails}
+          />
         ))}
 
         {/* Add new column */}
