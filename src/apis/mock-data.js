@@ -30,7 +30,7 @@ export const mockData = {
             description:
               'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Qui omnis quo ratione repudiandae? Nisi maxime illo repellat adipisci distinctio reprehenderit. Asperiores consequuntur rerum veritatis voluptas sit, dignissimos dolores totam adipisci?',
             cover:
-              'https://trungquandev.com/wp-content/uploads/2022/07/fair-mern-stack-advanced-banner-trungquandev.jpg',
+              'img',
             memberIds: ['test-user-id-01'],
             comments: ['test comment 01', 'test comment 02'],
             attachments: ['test attachment 01', 'test attachment 02', 'test attachment 03']

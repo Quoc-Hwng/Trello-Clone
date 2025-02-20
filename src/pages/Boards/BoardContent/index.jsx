@@ -303,9 +303,8 @@ export default function BoardContent({ board, moveColumns, moveCardInTheSameColu
 }
 
 BoardContent.propTypes = {
-  board: PropTypes.shape({
-    title: PropTypes.string,
-    columns: PropTypes.array,
-    columnOrderIds: PropTypes.array
-  }).isRequired
+  board: PropTypes.object.isRequired,
+  moveColumns: PropTypes.func.isRequired,
+  moveCardInTheSameColumn: PropTypes.func.isRequired,
+  moveCardToDifferentColumns: PropTypes.func.isRequired
 }

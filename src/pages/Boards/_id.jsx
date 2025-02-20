@@ -15,15 +15,19 @@ import {
   updateCurrentActiveBoard
 } from '~/redux/activeBoard/activeBoardSlice'
 import { cloneDeep } from 'lodash'
+import { useParams } from 'react-router-dom'
 
 export default function Boards() {
   const dispatch = useDispatch()
   const board = useSelector(selectCurrentActiveBoard)
 
+  const { boardId } = useParams()
+  console.log(boardId)
+
   useEffect(() => {
-    const boardId = '67b2fd22bad16c7394d3b5cf'
+    // const boardId = '67b2fd22bad16c7394d3b5cf'
     dispatch(fetchBoardDetailsAPI(boardId))
-  }, [dispatch])
+  }, [dispatch, boardId])
 
   const moveColumns = (dndOrderedColumns) => {
     const dndOrderedColumnsIds = dndOrderedColumns.map((c) => c._id)
