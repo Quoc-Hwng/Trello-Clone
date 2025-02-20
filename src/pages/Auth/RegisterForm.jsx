@@ -14,6 +14,7 @@ import {
   EMAIL_RULE,
   EMAIL_RULE_MESSAGE,
   FIELD_REQUIRED_MESSAGE,
+  PASSWORD_CONFIRMATION_MESSAGE,
   PASSWORD_RULE,
   PASSWORD_RULE_MESSAGE
 } from '~/utils/validators'
@@ -105,7 +106,7 @@ function RegisterForm() {
                 {...register('password_confirmation', {
                   validate: (value) => {
                     if (value === watch('password')) return true
-                    return 'Password Confirmation does not match!'
+                    return PASSWORD_CONFIRMATION_MESSAGE
                   }
                 })}
               />
@@ -113,7 +114,14 @@ function RegisterForm() {
             </Box>
           </Box>
           <CardActions sx={{ padding: '0 1em 1em 1em' }}>
-            <Button type='submit' variant='contained' color='primary' size='large' fullWidth>
+            <Button
+              className='interceptor-loading'
+              type='submit'
+              variant='contained'
+              color='primary'
+              size='large'
+              fullWidth
+            >
               Register
             </Button>
           </CardActions>

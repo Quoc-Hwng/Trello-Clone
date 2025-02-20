@@ -137,6 +137,7 @@ export default function ListColumns({ columns }) {
               }}
             >
               <Button
+                className='interceptor-loading'
                 variant='contained'
                 color='success'
                 size='small'

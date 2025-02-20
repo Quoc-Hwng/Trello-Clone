@@ -315,6 +315,7 @@ export default function Column({ column }) {
                 }}
               >
                 <Button
+                  className='interceptor-loading'
                   variant='contained'
                   color='success'
                   size='small'
