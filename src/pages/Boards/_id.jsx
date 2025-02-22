@@ -1,7 +1,5 @@
 import Container from '@mui/material/Container'
 import AppBar from '~/components/AppBar'
-import CircularProgress from '@mui/material/CircularProgress'
-import Box from '@mui/material/Box'
 
 import BoardBar from './BoardBar'
 import BoardContent from './BoardContent'
@@ -16,6 +14,7 @@ import {
 } from '~/redux/activeBoard/activeBoardSlice'
 import { cloneDeep } from 'lodash'
 import { useParams } from 'react-router-dom'
+import PageLoadingSpinner from '~/components/Loading/PageLoadingSpinner'
 
 export default function Boards() {
   const dispatch = useDispatch()
@@ -73,20 +72,7 @@ export default function Boards() {
   }
 
   if (!board) {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 2,
-          width: '100vw',
-          height: '100vh'
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    )
+    return <PageLoadingSpinner />
   }
 
   return (
