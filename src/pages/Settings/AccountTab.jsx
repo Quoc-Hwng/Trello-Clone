@@ -13,8 +13,8 @@ import AssignmentIndIcon from '@mui/icons-material/AssignmentInd'
 
 import { FIELD_REQUIRED_MESSAGE, singleFileValidator } from '~/utils/validators'
 import FieldErrorAlert from '~/components/Form/FieldErrorAlert'
-import { useSelector } from 'react-redux'
-import { selectCurrentUser } from '~/redux/user/userSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectCurrentUser, updateUserAPI } from '~/redux/user/userSlice'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
@@ -31,6 +31,7 @@ const VisuallyHiddenInput = styled('input')({
 })
 
 function AccountTab() {
+  const dispatch = useDispatch()
   const currentUser = useSelector(selectCurrentUser)
 
   const initialGeneralForm = {
@@ -50,6 +51,12 @@ function AccountTab() {
     console.log('displayName: ', displayName)
 
     if (displayName === currentUser?.displayName) return
+
+    toast.promise(dispatch(updateUserAPI({ displayName })), { pending: 'Updating...' }).then((res) => {
+      if (!res.error) {
+        toast.success('User updated successfully')
+      }
+    })
   }
 
   const uploadAvatar = (e) => {
@@ -67,7 +74,7 @@ function AccountTab() {
       console.log('reqData Value: ', value)
     }
 
-    // Gọi API...
+    //Call API
   }
 
   return (

@@ -13,6 +13,7 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { logoutUserAPI, selectCurrentUser } from '~/redux/user/userSlice'
 import { useConfirm } from 'material-ui-confirm'
+import { Link } from 'react-router-dom'
 
 export default function Profile() {
   const [anchorEl, setAnchorEl] = useState(null)
@@ -63,14 +64,17 @@ export default function Profile() {
           'aria-labelledby': 'basic-button-profile'
         }}
       >
-        <MenuItem
-          sx={{
-            '&:hover': { color: 'success.light' }
-          }}
-          onClick={handleClose}
-        >
-          <Avatar sx={{ width: 28, height: 28, mr: 2 }} alt={currentUser.username} src={currentUser?.avatar} /> Profile
-        </MenuItem>
+        <Link to='/settings/account' style={{ color: 'inherit' }}>
+          <MenuItem
+            sx={{
+              '&:hover': { color: 'success.light' }
+            }}
+            onClick={handleClose}
+          >
+            <Avatar sx={{ width: 28, height: 28, mr: 2 }} alt={currentUser.username} src={currentUser?.avatar} />{' '}
+            Profile
+          </MenuItem>
+        </Link>
         <Divider />
         <MenuItem onClick={handleClose}>
           <ListItemIcon>
