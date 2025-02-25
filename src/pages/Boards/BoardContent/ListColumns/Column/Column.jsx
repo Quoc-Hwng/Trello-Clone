@@ -88,7 +88,6 @@ export default function Column({ column }) {
 
     const newBoard = cloneDeep(board)
     const columnToUpdate = newBoard.columns.find((column) => column._id === createdCard.columnId)
-    console.log('columnToupDate', createdCard)
     if (columnToUpdate) {
       if (columnToUpdate.cards.some((card) => card.FE_PlaceholderCard)) {
         columnToUpdate.cards = [createdCard]

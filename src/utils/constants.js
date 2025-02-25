@@ -1,5 +1,4 @@
 let apiRoot = 'https://trello-api-brne.onrender.com'
-console.log(import.meta.env)
 // if (process.env.BUILD_MODE === 'dev') {
 // let apiRoot = 'http://localhost:4000'
 // }

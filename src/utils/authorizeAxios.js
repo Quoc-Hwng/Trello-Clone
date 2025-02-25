@@ -46,7 +46,6 @@ authorizedAxiosInstance.interceptors.response.use(
 
     const originalRequests = error.config
     if (error.response?.status === 410 && !originalRequests._retry) {
-      console.log(originalRequests)
       originalRequests._retry = true
       if (!refreshTokenPromise) {
         refreshTokenPromise = refreshTokenAPI()
@@ -54,7 +53,6 @@ authorizedAxiosInstance.interceptors.response.use(
             return data?.accessToken
           })
           .catch((_error) => {
-            console.log(_error)
             axiosReduxStore.dispatch(logoutUserAPI(false))
             return Promise.reject(_error)
           })

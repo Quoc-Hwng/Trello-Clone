@@ -21,7 +21,6 @@ export default function Board() {
   const board = useSelector(selectCurrentActiveBoard)
 
   const { boardId } = useParams()
-  console.log(boardId)
 
   useEffect(() => {
     // const boardId = '67b2fd22bad16c7394d3b5cf'
