@@ -102,7 +102,14 @@ export default function BoardContent({ board, moveColumns, moveCardInTheSameColu
       }
 
       if (triggerForm === 'handleDragEnd') {
-        moveCardToDifferentColumns(activeDraggingCardId, oldColumnWhenDraggingCard._id, nextOverColumn._id, nextColumns)
+        setTimeout(() => {
+          moveCardToDifferentColumns(
+            activeDraggingCardId,
+            oldColumnWhenDraggingCard._id,
+            nextOverColumn._id,
+            nextColumns
+          )
+        }, 0)
       }
 
       return nextColumns
