@@ -16,7 +16,7 @@ import { cloneDeep } from 'lodash'
 import { useParams } from 'react-router-dom'
 import PageLoadingSpinner from '~/components/Loading/PageLoadingSpinner'
 
-export default function Boards() {
+export default function Board() {
   const dispatch = useDispatch()
   const board = useSelector(selectCurrentActiveBoard)
 
