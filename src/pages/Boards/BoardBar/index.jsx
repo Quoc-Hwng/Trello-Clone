@@ -5,13 +5,12 @@ import VpnLock from '@mui/icons-material/VpnLock'
 import AddToDrive from '@mui/icons-material/AddToDrive'
 import Bolt from '@mui/icons-material/Bolt'
 import FilterList from '@mui/icons-material/FilterList'
-import Avatar from '@mui/material/Avatar'
-import AvatarGroup from '@mui/material/AvatarGroup'
 import Tooltip from '@mui/material/Tooltip'
 import Button from '@mui/material/Button'
 import PersonAdd from '@mui/icons-material/PersonAdd'
 import { capitalizeFirstLetter } from '~/utils/formatter'
 import PropTypes from 'prop-types'
+import BoardUserGroup from './BoardUserGroup'
 
 const MENU_STYLES = {
   color: 'white',
@@ -55,32 +54,9 @@ export default function BoardBar({ board }) {
           startIcon={<PersonAdd />}
           sx={{ color: 'white', borderColor: 'white', '&:hover': { borderColor: 'white' } }}
         >
-          Create
+          Invite
         </Button>
-        <AvatarGroup
-          max={4}
-          sx={{
-            gap: '10px',
-            '& .MuiAvatar-root': {
-              width: 30,
-              height: 30,
-              fontSize: 16,
-              border: 'none',
-              cursor: 'pointer',
-              '&:first-of-type': {
-                bgcolor: '#a4b0be'
-              }
-            }
-          }}
-        >
-          <Tooltip title='San San'>
-            <Avatar alt='Remy Sharp' src='/static/images/avatar/1.jpg' />
-          </Tooltip>
-          <Avatar alt='Travis Howard' src='/static/images/avatar/2.jpg' />
-          <Avatar alt='Cindy Baker' src='/static/images/avatar/3.jpg' />
-          <Avatar alt='Agnes Walker' src='/static/images/avatar/4.jpg' />
-          <Avatar alt='Trevor Henderson' src='/static/images/avatar/5.jpg' />
-        </AvatarGroup>
+        <BoardUserGroup boardUsers={board?.FE_allUsers} />
       </Box>
     </Box>
   )
@@ -89,6 +65,7 @@ export default function BoardBar({ board }) {
 BoardBar.propTypes = {
   board: PropTypes.shape({
     title: PropTypes.string,
-    type: PropTypes.string
+    type: PropTypes.string,
+    FE_allUsers: PropTypes.array
   }).isRequired
 }
