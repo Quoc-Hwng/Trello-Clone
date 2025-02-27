@@ -11,6 +11,7 @@ import PersonAdd from '@mui/icons-material/PersonAdd'
 import { capitalizeFirstLetter } from '~/utils/formatter'
 import PropTypes from 'prop-types'
 import BoardUserGroup from './BoardUserGroup'
+import InviteBoardUser from './InviteBoardUser'
 
 const MENU_STYLES = {
   color: 'white',
@@ -49,13 +50,7 @@ export default function BoardBar({ board }) {
       </Box>
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-        <Button
-          variant='outlined'
-          startIcon={<PersonAdd />}
-          sx={{ color: 'white', borderColor: 'white', '&:hover': { borderColor: 'white' } }}
-        >
-          Invite
-        </Button>
+        <InviteBoardUser boardId={board._id} />
         <BoardUserGroup boardUsers={board?.FE_allUsers} />
       </Box>
     </Box>
@@ -64,6 +59,7 @@ export default function BoardBar({ board }) {
 
 BoardBar.propTypes = {
   board: PropTypes.shape({
+    _id: PropTypes.string,
     title: PropTypes.string,
     type: PropTypes.string,
     FE_allUsers: PropTypes.array

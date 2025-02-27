@@ -8,8 +8,6 @@ import Workspaces from './Menus/Workspaces'
 import Recent from './Menus/Recent'
 import Starred from './Menus/Starred'
 import TextField from '@mui/material/TextField'
-import Badge from '@mui/material/Badge'
-import NotificationsNone from '@mui/icons-material/NotificationsNone'
 import Tooltip from '@mui/material/Tooltip'
 import HelpOutline from '@mui/icons-material/HelpOutline'
 import Profile from './Menus/Profile'
@@ -21,6 +19,7 @@ import Search from '@mui/icons-material/Search'
 import Close from '@mui/icons-material/Close'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import Notifications from './Notifications/Notifications'
 
 export default function AppBar() {
   const [searchValue, setSearchValue] = useState('')
@@ -108,11 +107,7 @@ export default function AppBar() {
             }}
           />
           <ModeSelect />
-          <Tooltip title='Notifications'>
-            <Badge color='warning' variant='dot' sx={{ cursor: 'pointer', display: { xs: 'none', md: 'block' } }}>
-              <NotificationsNone sx={{ color: 'white' }} />
-            </Badge>
-          </Tooltip>
+          <Notifications />
           <Tooltip title='Help'>
             <HelpOutline sx={{ color: 'white', display: { xs: 'none', md: 'block' } }} />
           </Tooltip>
