@@ -3,11 +3,14 @@ import Box from '@mui/material/Box'
 import Avatar from '@mui/material/Avatar'
 import Tooltip from '@mui/material/Tooltip'
 import Popover from '@mui/material/Popover'
-import AddIcon from '@mui/icons-material/Add'
+import Add from '@mui/icons-material/Add'
 import Badge from '@mui/material/Badge'
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import CheckCircle from '@mui/icons-material/CheckCircle'
+import { useSelector } from 'react-redux'
+import { selectCurrentActiveBoard } from '~/redux/activeBoard/activeBoardSlice'
+import { CARD_MEMBER_ACTIONS } from '~/utils/constants'
 
-function CardUserGroup({ cardMemberIds = [] }) {
+function CardUserGroup({ cardMemberIds = [], onUpdateCardMembers }) {
   const [anchorPopoverElement, setAnchorPopoverElement] = useState(null)
   const isOpenPopover = Boolean(anchorPopoverElement)
   const popoverId = isOpenPopover ? 'card-all-users-popover' : undefined
@@ -16,11 +19,25 @@ function CardUserGroup({ cardMemberIds = [] }) {
     else setAnchorPopoverElement(null)
   }
 
+  const board = useSelector(selectCurrentActiveBoard)
+
+  // const FE_CardMembers = board.FE_allUsers?.filter((user) => cardMemberIds.includes(user._id))
+
+  const FE_CardMembers = cardMemberIds.map((id) => board.FE_allUsers.find((u) => u._id === id))
+
+  const handleUpdateCardMemebers = (user) => {
+    const incomingMemberInfo = {
+      userId: user._id,
+      action: cardMemberIds.includes(user._id) ? CARD_MEMBER_ACTIONS.REMOVE : CARD_MEMBER_ACTIONS.ADD
+    }
+    onUpdateCardMembers(incomingMemberInfo)
+  }
+
   return (
     <Box sx={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
-      {[...Array(8)].map((_, index) => (
+      {FE_CardMembers.map((user, index) => (
         <Tooltip title='' key={index}>
-          <Avatar sx={{ width: 34, height: 34, cursor: 'pointer' }} alt='' src='' />
+          <Avatar sx={{ width: 34, height: 34, cursor: 'pointer' }} alt={user.displayName} src={user.avatar} />
         </Tooltip>
       ))}
 
@@ -46,7 +63,7 @@ function CardUserGroup({ cardMemberIds = [] }) {
             }
           }}
         >
-          <AddIcon fontSize='small' />
+          <Add fontSize='small' />
         </Box>
       </Tooltip>
 
@@ -58,15 +75,18 @@ function CardUserGroup({ cardMemberIds = [] }) {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
       >
         <Box sx={{ p: 2, maxWidth: '260px', display: 'flex', flexWrap: 'wrap', gap: 1.5 }}>
-          {[...Array(16)].map((_, index) => (
+          {board?.FE_allUsers?.map((user, index) => (
             <Tooltip title='' key={index}>
               <Badge
                 sx={{ cursor: 'pointer' }}
                 overlap='rectangular'
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                badgeContent={<CheckCircleIcon fontSize='small' sx={{ color: '#27ae60' }} />}
+                badgeContent={
+                  cardMemberIds.includes(user._id) ? <CheckCircle fontSize='small' sx={{ color: '#27ae60' }} /> : null
+                }
+                onClick={() => handleUpdateCardMemebers(user)}
               >
-                <Avatar sx={{ width: 34, height: 34 }} alt='' src='' />
+                <Avatar sx={{ width: 34, height: 34 }} alt={user.displayName} src={user.avatar} />
               </Badge>
             </Tooltip>
           ))}

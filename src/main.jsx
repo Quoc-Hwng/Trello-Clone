@@ -15,14 +15,13 @@ import { injectStore } from './utils/authorizeAxios.js'
 import { GlobalStyles } from '@mui/material'
 
 const persistor = persistStore(store)
-
 injectStore(store)
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter basename='/'>
-      <Provider store={store}>
-        <PersistGate persistor={persistor}>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <BrowserRouter basename='/'>
           <ThemeProvider theme={theme}>
             <ConfirmProvider
               defaultOptions={{
@@ -38,8 +37,8 @@ createRoot(document.getElementById('root')).render(
               <ToastContainer />
             </ConfirmProvider>
           </ThemeProvider>
-        </PersistGate>
-      </Provider>
-    </BrowserRouter>
+        </BrowserRouter>
+      </PersistGate>
+    </Provider>
   </StrictMode>
 )
